@@ -1,0 +1,31 @@
+{
+  "sentence": "A landslide occurred near Shimla in Himachal Pradesh.",
+  "entities": [
+    {
+      "text": "Shimla",
+      "start": 26,
+      "end": 32,
+      "resolved": {
+        "state": "Himachal Pradesh",
+        "district": "Shimla",
+        "lat": 31.1048,
+        "lon": 77.1734,
+        "confidence": 0.94
+      },
+      "alternates": []
+    },
+    {
+      "text": "Himachal Pradesh",
+      "start": 36,
+      "end": 52,
+      "resolved": {
+        "state": "Himachal Pradesh",
+        "district": "Himachal Pradesh",
+        "lat": 31.1048,
+        "lon": 77.1734,
+        "confidence": 0.98
+      },
+      "alternates": []
+    }
+  ]
+}
