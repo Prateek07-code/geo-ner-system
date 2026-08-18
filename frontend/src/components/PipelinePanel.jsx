@@ -8,8 +8,8 @@ function PipelinePanel() {
   ];
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+    <section className="rounded-2xl border border-geo-blue/15 bg-white p-6 shadow-sm">
+      <p className="text-xs font-semibold uppercase tracking-wider text-geo-blue/65">
         System Pipeline
       </p>
       <h2 className="mt-1 text-lg font-semibold text-navy">
@@ -19,17 +19,17 @@ function PipelinePanel() {
       <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-0">
         {steps.map((step, index) => (
           <div key={step.label} className="flex flex-1 items-center">
-            <div className="flex-1 rounded-xl border border-slate-200 bg-surface px-4 py-3">
+            <div className="flex-1 rounded-xl border border-geo-blue/15 bg-geo-blue/5 px-4 py-3">
               <p className="text-sm font-semibold text-navy">
                 {step.label}
               </p>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-xs text-geo-blue/70">
                 {step.detail}
               </p>
             </div>
 
             {index < steps.length - 1 && (
-              <div className="hidden shrink-0 px-2 text-slate-300 sm:block">
+              <div className="hidden shrink-0 px-2 text-geo-orange sm:block">
                 →
               </div>
             )}

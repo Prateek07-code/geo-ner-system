@@ -1,8 +1,8 @@
 function HighlightedText({ sentence, entities }) {
   if (!sentence) {
     return (
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <p className="text-sm text-slate-400">
+      <div className="rounded-2xl border border-geo-blue/15 bg-white p-6 shadow-sm">
+        <p className="text-sm text-geo-blue/65">
           Your analyzed sentence will appear here.
         </p>
       </div>
@@ -33,17 +33,17 @@ function HighlightedText({ sentence, entities }) {
     parts.push(
       <span
         key={`entity-${index}`}
-        className="group relative inline-block cursor-help rounded-md bg-amber-100 px-1.5 py-0.5 font-semibold text-amber-900 ring-1 ring-geo-amber/40 transition hover:bg-amber-200"
+        className="group relative inline-block cursor-help rounded-md bg-geo-orange/15 px-1.5 py-0.5 font-semibold text-geo-orange ring-1 ring-geo-orange/45 transition hover:bg-geo-orange/25"
       >
         {sentence.slice(start, end)}
 
         {entity.resolved && (
-          <span className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 w-max -translate-x-1/2 scale-95 rounded-lg border border-slate-200 bg-navy px-3 py-2 text-xs font-normal text-white opacity-0 shadow-lg transition group-hover:scale-100 group-hover:opacity-100">
+          <span className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 w-max -translate-x-1/2 scale-95 rounded-lg border border-geo-blue/15 bg-navy px-3 py-2 text-xs font-normal text-white opacity-0 shadow-lg transition group-hover:scale-100 group-hover:opacity-100">
             <span className="block font-semibold">{entity.text}</span>
-            <span className="block text-slate-300">
+            <span className="block text-white/70">
               {entity.resolved.state}
             </span>
-            <span className="block text-geo-cyan">
+            <span className="block text-geo-orange">
               {confidencePct}% confidence
             </span>
           </span>
@@ -61,9 +61,9 @@ function HighlightedText({ sentence, entities }) {
   }
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <section className="rounded-2xl border border-geo-blue/15 bg-white p-6 shadow-sm">
       <div className="mb-4">
-        <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+        <p className="text-xs font-semibold uppercase tracking-wider text-geo-blue/65">
           Detected Places
         </p>
         <h2 className="mt-1 text-lg font-semibold text-navy">

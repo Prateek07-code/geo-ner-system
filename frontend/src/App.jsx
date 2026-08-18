@@ -26,11 +26,11 @@ function App() {
 
   return (
     <main className="min-h-screen bg-surface">
-      <header className="bg-grid-pattern border-b border-slate-200 bg-navy px-4 py-10">
+      <header className="bg-grid-pattern border-b border-geo-blue/30 bg-geo-blue px-4 py-10">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-wider text-geo-cyan">
+              <p className="text-sm font-semibold uppercase tracking-wider text-geo-orange">
                 ISRO Bhuvan • GeoNER
               </p>
               <h1 className="mt-2 text-3xl font-bold text-white">
@@ -42,12 +42,12 @@ function App() {
               </p>
             </div>
 
-            <div className="flex items-center gap-2 rounded-full border border-slate-700 bg-navy-light px-4 py-2">
-              <span className="h-2 w-2 rounded-full bg-geo-emerald" />
-              <span className="text-xs font-semibold text-slate-200">
+            <div className="flex items-center gap-2 rounded-full border border-white/25 bg-geo-blue/80 px-4 py-2">
+              <span className="h-2 w-2 rounded-full bg-geo-orange" />
+              <span className="text-xs font-semibold text-white">
                 SYSTEM READY
               </span>
-              <span className="text-xs text-slate-400">
+              <span className="text-xs text-white/70">
                 · Mock Data Mode
               </span>
             </div>
@@ -65,20 +65,20 @@ function App() {
         />
 
         {!result && !loading && (
-          <section className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center">
+          <section className="rounded-2xl border border-dashed border-geo-blue/30 bg-white p-10 text-center">
             <p className="text-sm font-semibold text-navy">
               Ready for Analysis
             </p>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-geo-blue/70">
               Enter a sentence above to identify and resolve place names.
             </p>
           </section>
         )}
 
         {loading && (
-          <section className="rounded-2xl border border-slate-200 bg-white p-10 text-center">
-            <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-slate-200 border-t-geo-blue" />
-            <p className="mt-3 text-sm font-medium text-slate-500">
+          <section className="rounded-2xl border border-geo-blue/15 bg-white p-10 text-center">
+            <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-geo-blue/20 border-t-geo-orange" />
+            <p className="mt-3 text-sm font-medium text-geo-blue/70">
               Preparing results…
             </p>
           </section>

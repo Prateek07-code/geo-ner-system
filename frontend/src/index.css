@@ -1,22 +1,30 @@
 @import "tailwindcss";
 
 @theme {
-  /* ISRO-inspired palette — extends your existing DESIGN.md tokens */
-  --color-navy: #0F172A;
-  --color-navy-light: #1E293B;
-  --color-geo-blue: #2563EB;
-  --color-geo-cyan: #0EA5E9;
-  --color-geo-orange: #F97316;
-  --color-geo-emerald: #059669;
-  --color-geo-amber: #F59E0B;
-  --color-surface: #F8FAFC;
+  /* ISRO-inspired brand colors */
+  --color-isro-blue: rgb(18 109 177);
+  --color-isro-navy: rgb(2 12 68);
+  --color-isro-orange: rgb(244 114 22);
+
+  /* Existing project tokens */
+  --color-navy: rgb(2 12 68);
+  --color-navy-light: rgb(18 109 177);
+  --color-geo-blue: rgb(18 109 177);
+  --color-geo-cyan: rgb(18 109 177);
+  --color-geo-orange: rgb(244 114 22);
+
+  /* Keep semantic confidence colors */
+  --color-geo-emerald: rgb(5 150 105);
+  --color-geo-amber: rgb(245 158 11);
+
+  --color-surface: rgb(248 250 252);
 }
 
 :root {
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
-  color: #172033;
-  background: #f8fafc;
+  color: rgb(15 23 42);
+  background: rgb(248 250 252);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
@@ -36,10 +44,10 @@ textarea {
   font: inherit;
 }
 
-/* Subtle technical grid background — used sparingly behind the header */
+/* ISRO-inspired technical grid */
 .bg-grid-pattern {
   background-image:
-    linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgb(18 109 177 / 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(244 114 22 / 0.06) 1px, transparent 1px);
   background-size: 32px 32px;
 }

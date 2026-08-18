@@ -1,5 +1,5 @@
 // Single source of truth for confidence band thresholds.
-// green > 85%, amber 60-85%, red < 60% (per Phase 2 spec).
+// >85%, 60-85%, <60% bands; rendered with the ISRO blue/orange palette.
 
 export function getConfidenceBand(confidence) {
   const pct = confidence <= 1 ? confidence * 100 : confidence;
@@ -10,18 +10,18 @@ export function getConfidenceBand(confidence) {
 
 export const CONFIDENCE_STYLES = {
   high: {
-    badge: "bg-emerald-100 text-emerald-700",
-    bar: "bg-emerald-500",
-    dot: "bg-emerald-500",
+    badge: "bg-geo-blue/15 text-geo-blue",
+    bar: "bg-geo-blue",
+    dot: "bg-geo-blue",
   },
   medium: {
-    badge: "bg-amber-100 text-amber-700",
-    bar: "bg-amber-500",
-    dot: "bg-amber-500",
+    badge: "bg-geo-orange/15 text-geo-orange",
+    bar: "bg-geo-orange",
+    dot: "bg-geo-orange",
   },
   low: {
-    badge: "bg-red-100 text-red-700",
-    bar: "bg-red-500",
-    dot: "bg-red-500",
+    badge: "bg-geo-orange/30 text-geo-orange",
+    bar: "bg-geo-orange",
+    dot: "bg-geo-orange",
   },
 };

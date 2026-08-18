@@ -41,9 +41,9 @@ function OverviewMetrics({ result }) {
       {metrics.map((metric) => (
         <div
           key={metric.label}
-          className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+          className="rounded-xl border border-geo-blue/15 bg-white p-4 shadow-sm"
         >
-          <p className="text-xs font-medium uppercase tracking-wider text-slate-400">
+          <p className="text-xs font-medium uppercase tracking-wider text-geo-blue/65">
             {metric.label}
           </p>
           <p className="mt-1 text-2xl font-bold text-navy">
