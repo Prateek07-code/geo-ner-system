@@ -1,27 +1,15 @@
 """
-GeoNER — Backend API (Final Sprint, Day 1)
+GeoNER — Backend API (Final Sprint)
 
 Live flow:
     raw sentence
-      -> normalize()                   [Stage 1 — Person 1 / Data pair]
-      -> analyze_sentence(original)    [Stages 2+3+4 — NLP pair]
+      -> normalize()                 [Stage 1 — Data pair]
+      -> analyze_sentence(...)       [Stages 2+3+4 — NLP pair + Real Gazetteer]
       -> log_resolution() per entity   [privacy-safe logging]
-      -> AnalyzeResponse                [contract shape, with status field]
-
-IMPORTANT: analyze_sentence() is called with normalized.original, NOT
-normalized.cleaned. This is deliberate -- extract_entities() must run on
-the exact same string that gets echoed back as "sentence" in the response,
-otherwise start/end offsets from NER won't line up with what the frontend
-highlights. cleaned text is still available (normalized.cleaned) for
-narrower uses downstream, e.g. inside gazetteer lookups on individual
-matched place names -- just not for the whole-sentence NER pass.
+      -> AnalyzeResponse               [contract shape with status field]
 
 Run:
     uvicorn main:app --reload --port 8000
-
-SWAP WHEN READY: replace the `nlp_interface` import below with the NLP
-pair's real module once they hand it over (e.g. `from pipeline import
-analyze_sentence`, once pipeline.py is dropped into this folder).
 """
 
 from typing import Literal, Optional
@@ -33,8 +21,9 @@ from pydantic import BaseModel, Field
 from normalize import normalize
 from privacy_log import log_resolution
 
-# --- SWAP THIS IMPORT once the NLP pair hands over their real file ---
-from nlp_interface import analyze_sentence
+# Real pipeline & gazetteer imports (all inside backend/)
+from pipeline import analyze_sentence
+from gazetteer import lookup as gazetteer_lookup
 
 app = FastAPI(title="GeoNER API", version="0.2.0-sprint-day1")
 
@@ -47,7 +36,7 @@ app.add_middleware(
 )
 
 
-# ---------- Models (updated contract: status field added) ----------
+# ---------- Models (Contract Shape) ----------
 
 class AnalyzeRequest(BaseModel):
     sentence: str
@@ -89,16 +78,17 @@ def health():
 
 @app.post("/analyze", response_model=AnalyzeResponse)
 def analyze(req: AnalyzeRequest):
-    # Stage 1 — normalise (Person 1's normalize())
+    # Stage 1 — Normalise raw text
     normalized = normalize(req.sentence)
 
-    # Stages 2+3+4 — NLP pair's pipeline.
-    # Deliberately using `original`, not `cleaned` -- see module docstring.
-    result = analyze_sentence(normalized.original)
+    # Stages 2+3+4 — NLP pipeline connected to the real gazetteer DB
+    result = analyze_sentence(
+        normalized.original, 
+        gazetteer_lookup=gazetteer_lookup
+    )
     entities = result.get("entities", [])
 
-    # Privacy-safe logging: place + confidence + timestamp ONLY, never
-    # the raw sentence. This must stay true for the running system.
+    # Privacy-safe logging: place + confidence + status ONLY (no raw sentences)
     for ent in entities:
         resolved = ent.get("resolved")
         confidence = resolved["confidence"] if resolved else None
@@ -108,5 +98,5 @@ def analyze(req: AnalyzeRequest):
             status=ent.get("status", "unknown"),
         )
 
-    # Response echoes the ORIGINAL sentence (matches Person 1's integration note)
+    # Response echoes the ORIGINAL sentence for proper frontend highlighting offsets
     return AnalyzeResponse(sentence=normalized.original, entities=entities)
