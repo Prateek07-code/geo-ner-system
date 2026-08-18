@@ -1,0 +1,356 @@
+[
+  {
+    "id": 1,
+    "category": "unambiguous",
+    "sentence": "The ISRO headquarters is located in Bengaluru.",
+    "expected_entities": ["Bengaluru"]
+  },
+  {
+    "id": 2,
+    "category": "unambiguous",
+    "sentence": "Heavy rainfall has been reported across Mumbai since last night.",
+    "expected_entities": ["Mumbai"]
+  },
+  {
+    "id": 3,
+    "category": "unambiguous",
+    "sentence": "The Bhuvan portal now includes updated flood maps for Chennai.",
+    "expected_entities": ["Chennai"]
+  },
+  {
+    "id": 4,
+    "category": "unambiguous",
+    "sentence": "A magnitude 4.2 earthquake was felt in Guwahati early this morning.",
+    "expected_entities": ["Guwahati"]
+  },
+  {
+    "id": 5,
+    "category": "unambiguous",
+    "sentence": "Landslide warnings have been issued for parts of Shimla.",
+    "expected_entities": ["Shimla"]
+  },
+  {
+    "id": 6,
+    "category": "unambiguous",
+    "sentence": "Cyclone warnings have been issued for coastal areas near Visakhapatnam.",
+    "expected_entities": ["Visakhapatnam"]
+  },
+  {
+    "id": 7,
+    "category": "unambiguous",
+    "sentence": "Firefighters were deployed to control a forest fire near Nainital.",
+    "expected_entities": ["Nainital"]
+  },
+  {
+    "id": 8,
+    "category": "unambiguous",
+    "sentence": "The Kochi metro station suffered minor waterlogging after the storm.",
+    "expected_entities": ["Kochi"]
+  },
+  {
+    "id": 9,
+    "category": "ambiguous_same_name",
+    "sentence": "Show me the disaster alerts for Aurangabad and Rampur.",
+    "expected_entities": ["Aurangabad", "Rampur"],
+    "notes": "No context to disambiguate either name — good baseline case for Phase 2."
+  },
+  {
+    "id": 10,
+    "category": "ambiguous_same_name",
+    "sentence": "Flooding reported near Aurangabad after heavy rains in Maharashtra.",
+    "expected_entities": ["Aurangabad"],
+    "notes": "The word 'Maharashtra' should let Phase 2 resolve to Aurangabad, Maharashtra rather than Aurangabad, Bihar."
+  },
+  {
+    "id": 11,
+    "category": "ambiguous_same_name",
+    "sentence": "A landslide has blocked the highway to Bilaspur.",
+    "expected_entities": ["Bilaspur"],
+    "notes": "Bilaspur exists in both Chhattisgarh and Himachal Pradesh — no disambiguating context given."
+  },
+  {
+    "id": 12,
+    "category": "ambiguous_same_name",
+    "sentence": "Farmers in Pratapgarh are reporting crop damage due to unseasonal hail.",
+    "expected_entities": ["Pratapgarh"],
+    "notes": "Pratapgarh exists in both Uttar Pradesh and Rajasthan."
+  },
+  {
+    "id": 13,
+    "category": "ambiguous_same_name",
+    "sentence": "The district administration in Balrampur issued a flood advisory.",
+    "expected_entities": ["Balrampur"],
+    "notes": "Balrampur exists in both Uttar Pradesh and Chhattisgarh."
+  },
+  {
+    "id": 14,
+    "category": "ambiguous_same_name",
+    "sentence": "Bijapur received its heaviest rainfall in a decade this week.",
+    "expected_entities": ["Bijapur"],
+    "notes": "Bijapur exists in both Karnataka and Chhattisgarh."
+  },
+  {
+    "id": 15,
+    "category": "ambiguous_same_name",
+    "sentence": "Officials confirmed a tremor was felt in Rampur late last night.",
+    "expected_entities": ["Rampur"],
+    "notes": "Rampur exists in Uttar Pradesh, Himachal Pradesh, and elsewhere."
+  },
+  {
+    "id": 16,
+    "category": "ambiguous_same_name",
+    "sentence": "Relief camps have been set up near Aurangabad following the floods.",
+    "expected_entities": ["Aurangabad"],
+    "notes": "No disambiguating context — tests Phase 2's default/most-likely ranking."
+  },
+  {
+    "id": 17,
+    "category": "multi_place",
+    "sentence": "Flooding has affected both Patna and Muzaffarpur after the Ganga overflowed its banks.",
+    "expected_entities": ["Patna", "Muzaffarpur"]
+  },
+  {
+    "id": 18,
+    "category": "multi_place",
+    "sentence": "The IMD has issued a heavy rain alert for Kolkata, Bhubaneswar, and Puri.",
+    "expected_entities": ["Kolkata", "Bhubaneswar", "Puri"]
+  },
+  {
+    "id": 19,
+    "category": "multi_place",
+    "sentence": "Trains between Delhi and Jaipur were delayed due to dense fog.",
+    "expected_entities": ["Delhi", "Jaipur"]
+  },
+  {
+    "id": 20,
+    "category": "multi_place",
+    "sentence": "Relief teams moved from Guwahati to Dibrugarh after the embankment breach.",
+    "expected_entities": ["Guwahati", "Dibrugarh"]
+  },
+  {
+    "id": 21,
+    "category": "multi_place",
+    "sentence": "Cyclone Fani caused damage across Puri, Bhubaneswar, and parts of Cuttack.",
+    "expected_entities": ["Puri", "Bhubaneswar", "Cuttack"]
+  },
+  {
+    "id": 22,
+    "category": "multi_place",
+    "sentence": "The road connecting Nagpur and Amravati remains blocked due to landslides.",
+    "expected_entities": ["Nagpur", "Amravati"]
+  },
+  {
+    "id": 23,
+    "category": "multi_place",
+    "sentence": "Both Surat and Vadodara reported waterlogging after the overnight downpour.",
+    "expected_entities": ["Surat", "Vadodara"]
+  },
+  {
+    "id": 24,
+    "category": "multi_place",
+    "sentence": "Officials in Coimbatore, Madurai, and Salem are on high alert for flash floods.",
+    "expected_entities": ["Coimbatore", "Madurai", "Salem"]
+  },
+  {
+    "id": 25,
+    "category": "misspelling",
+    "sentence": "Heavy flooding was reported in Bengalooru after the overnight storm.",
+    "expected_entities": ["Bengalooru"],
+    "notes": "Misspelling of Bengaluru — detector should still catch the span; correction happens later."
+  },
+  {
+    "id": 26,
+    "category": "misspelling",
+    "sentence": "Authorities issued a heat wave warning for Hydarabad this week.",
+    "expected_entities": ["Hydarabad"],
+    "notes": "Misspelling of Hyderabad."
+  },
+  {
+    "id": 27,
+    "category": "misspelling",
+    "sentence": "A minor earthquake was recorded near Dehradoon early today.",
+    "expected_entities": ["Dehradoon"],
+    "notes": "Misspelling of Dehradun."
+  },
+  {
+    "id": 28,
+    "category": "misspelling",
+    "sentence": "Relief supplies are being sent to Vishakapatnam after the cyclone.",
+    "expected_entities": ["Vishakapatnam"],
+    "notes": "Misspelling of Visakhapatnam."
+  },
+  {
+    "id": 29,
+    "category": "misspelling",
+    "sentence": "Rescue teams reached Chennei after the coastal flooding worsened.",
+    "expected_entities": ["Chennei"],
+    "notes": "Misspelling of Chennai."
+  },
+  {
+    "id": 30,
+    "category": "misspelling",
+    "sentence": "The district collector of Jaipurr confirmed no casualties in the storm.",
+    "expected_entities": ["Jaipurr"],
+    "notes": "Misspelling of Jaipur."
+  },
+  {
+    "id": 31,
+    "category": "code_switched",
+    "sentence": "Kal raat Pune mein bohot heavy rainfall hua.",
+    "expected_entities": ["Pune"]
+  },
+  {
+    "id": 32,
+    "category": "code_switched",
+    "sentence": "Aaj subah Delhi mein traffic bahut zyada tha due to waterlogging.",
+    "expected_entities": ["Delhi"]
+  },
+  {
+    "id": 33,
+    "category": "code_switched",
+    "sentence": "Mumbai ke local trains aaj bhi late chal rahi hain.",
+    "expected_entities": ["Mumbai"]
+  },
+  {
+    "id": 34,
+    "category": "code_switched",
+    "sentence": "Lucknow mein bijli chali gayi thi storm ke baad.",
+    "expected_entities": ["Lucknow"]
+  },
+  {
+    "id": 35,
+    "category": "code_switched",
+    "sentence": "Kal Jaipur mein dust storm aaya tha, bahut visibility kam thi.",
+    "expected_entities": ["Jaipur"]
+  },
+  {
+    "id": 36,
+    "category": "code_switched",
+    "sentence": "Bhopal se Indore tak highway band hai landslide ki wajah se.",
+    "expected_entities": ["Bhopal", "Indore"],
+    "notes": "Combines code-switching with multi-place — good stress test."
+  },
+  {
+    "id": 37,
+    "category": "no_place",
+    "sentence": "The weather forecast predicts light showers over the next three days.",
+    "expected_entities": []
+  },
+  {
+    "id": 38,
+    "category": "no_place",
+    "sentence": "Emergency response teams completed their annual disaster preparedness drill.",
+    "expected_entities": []
+  },
+  {
+    "id": 39,
+    "category": "no_place",
+    "sentence": "The new satellite will improve real-time monitoring of extreme weather events.",
+    "expected_entities": []
+  },
+  {
+    "id": 40,
+    "category": "no_place",
+    "sentence": "Residents were advised to stay indoors due to the ongoing heatwave.",
+    "expected_entities": []
+  },
+  {
+    "id": 41,
+    "category": "natural_feature",
+    "sentence": "Water levels in the Ganga rose sharply after continuous rainfall upstream.",
+    "expected_entities": ["Ganga"],
+    "notes": "Tests LOC label (natural feature) rather than GPE."
+  },
+  {
+    "id": 42,
+    "category": "natural_feature",
+    "sentence": "The Western Ghats received unusually heavy rainfall this monsoon season.",
+    "expected_entities": ["Western Ghats"],
+    "notes": "Multi-word natural feature — checks offset math for multi-token spans."
+  },
+  {
+    "id": 43,
+    "category": "natural_feature",
+    "sentence": "Flood waters from the Brahmaputra have submerged several villages.",
+    "expected_entities": ["Brahmaputra"]
+  },
+  {
+    "id": 44,
+    "category": "natural_feature",
+    "sentence": "The Himalayas saw an early snowfall this year, triggering avalanche warnings.",
+    "expected_entities": ["Himalayas"]
+  },
+  {
+    "id": 45,
+    "category": "compound_location",
+    "sentence": "A water pipeline burst was reported in Sector 15, Rohini, Delhi this morning.",
+    "expected_entities": ["Sector 15", "Rohini", "Delhi"],
+    "expected_state": "Delhi",
+    "notes": "Nested/compound case: most specific token (Sector 15) is ambiguous alone; Rohini and Delhi should be used as context to disambiguate it. spaCy may or may not tag 'Sector 15' as GPE — worth checking during detection scoring."
+  },
+  {
+    "id": 46,
+    "category": "compound_location",
+    "sentence": "Residents of Koramangala, Bengaluru, Karnataka reported waterlogged streets.",
+    "expected_entities": ["Koramangala", "Bengaluru", "Karnataka"],
+    "expected_state": "Karnataka"
+  },
+  {
+    "id": 47,
+    "category": "compound_location",
+    "sentence": "The relief camp is set up near Dharavi, Mumbai, Maharashtra.",
+    "expected_entities": ["Dharavi", "Mumbai", "Maharashtra"],
+    "expected_state": "Maharashtra"
+  },
+  {
+    "id": 48,
+    "category": "compound_location",
+    "sentence": "Flood warnings cover Salt Lake, Kolkata, West Bengal this week.",
+    "expected_entities": ["Salt Lake", "Kolkata", "West Bengal"],
+    "expected_state": "West Bengal"
+  },
+  {
+    "id": 49,
+    "category": "compound_location",
+    "sentence": "Cyclone damage was heaviest in Marina, Chennai, Tamil Nadu.",
+    "expected_entities": ["Marina", "Chennai", "Tamil Nadu"],
+    "expected_state": "Tamil Nadu"
+  },
+  {
+    "id": 50,
+    "category": "unknown_place",
+    "sentence": "The flood alert was issued for Nandagram Colony this evening.",
+    "expected_entities": ["Nandagram Colony"],
+    "expected_status": "no_confident_match",
+    "notes": "Made-up/unregistered place — should be detected as a candidate span but have zero gazetteer matches, so disambiguation must return status: no_confident_match rather than forcing a guess."
+  },
+  {
+    "id": 51,
+    "category": "unknown_place",
+    "sentence": "Rescue teams were dispatched to Sunderpalli Basti after the embankment failed.",
+    "expected_entities": ["Sunderpalli Basti"],
+    "expected_status": "no_confident_match"
+  },
+  {
+    "id": 52,
+    "category": "unknown_place",
+    "sentence": "Officials confirmed no casualties in Ramnagar Extension following the storm.",
+    "expected_entities": ["Ramnagar Extension"],
+    "expected_status": "no_confident_match",
+    "notes": "Contains a real place fragment (Ramnagar exists genuinely in several states) plus a fabricated suffix — tests whether fuzzy match over-matches on partial tokens."
+  },
+  {
+    "id": 53,
+    "category": "unknown_place",
+    "sentence": "Volunteers are coordinating relief efforts in Devipur Nagar.",
+    "expected_entities": ["Devipur Nagar"],
+    "expected_status": "no_confident_match"
+  },
+  {
+    "id": 54,
+    "category": "unknown_place",
+    "sentence": "The bridge near Kalyanpuram Colony was washed away in the flash flood.",
+    "expected_entities": ["Kalyanpuram Colony"],
+    "expected_status": "no_confident_match"
+  }
+]

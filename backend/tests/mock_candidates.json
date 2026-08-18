@@ -1,0 +1,48 @@
+{
+  "aurangabad_context_win": {
+    "sentence": "Flooding reported near Aurangabad after heavy rains in Maharashtra.",
+    "candidates": [
+      {"name": "Aurangabad", "asciiname": "Aurangabad", "state": "Maharashtra",
+       "district": "Chhatrapati Sambhajinagar", "lat": 19.8762, "lon": 75.3433,
+       "population": 1175116, "feature_code": "PPLA2"},
+      {"name": "Aurangabad", "asciiname": "Aurangabad", "state": "Bihar",
+       "district": "Aurangabad", "lat": 24.7522, "lon": 84.3742,
+       "population": 96854, "feature_code": "PPLA2"}
+    ]
+  },
+  "rampur_population_fallback": {
+    "sentence": "A landslide was reported near Rampur yesterday.",
+    "candidates": [
+      {"name": "Rampur", "asciiname": "Rampur", "state": "Uttar Pradesh",
+       "district": "Rampur", "lat": 28.8, "lon": 79.03,
+       "population": 325248, "feature_code": "PPLA2"},
+      {"name": "Rampur", "asciiname": "Rampur", "state": "Himachal Pradesh",
+       "district": "Shimla", "lat": 31.45, "lon": 77.63,
+       "population": 6689, "feature_code": "PPL"}
+    ]
+  },
+  "single_candidate": {
+    "sentence": "Heavy rain in Chhatrapati Sambhajinagar disrupted traffic.",
+    "candidates": [
+      {"name": "Chhatrapati Sambhajinagar", "asciiname": "Chhatrapati Sambhajinagar",
+       "state": "Maharashtra", "district": "Chhatrapati Sambhajinagar",
+       "lat": 19.8762, "lon": 75.3433, "population": 1175116, "feature_code": "PPLA2"}
+    ]
+  },
+  "zero_candidate": {
+    "sentence": "Reports came in from Xyzabadpur this morning.",
+    "candidates": []
+  },
+  
+  "nested_compound_delhi": {
+  "sentence": "Waterlogging reported in Sector 15, Rohini, Delhi after last night's storm.",
+  "candidates": [
+    {"name": "Rohini", "asciiname": "Rohini", "state": "Delhi",
+     "district": "North West Delhi", "lat": 28.7495, "lon": 77.0565,
+     "population": 400000, "feature_code": "PPLX"},
+    {"name": "Rohini", "asciiname": "Rohini", "state": "Maharashtra",
+     "district": "Akola", "lat": 20.85, "lon": 77.02,
+     "population": 15000, "feature_code": "PPL"}
+  ]
+}
+}
