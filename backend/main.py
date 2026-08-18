@@ -1,18 +1,27 @@
 """
 GeoNER — Backend API (Final Sprint, Day 1)
 
-Mock data retired. Live flow:
+Live flow:
     raw sentence
       -> normalize()                   [Stage 1 — Person 1 / Data pair]
-      -> analyze_sentence(cleaned)     [Stages 2+3+4 — NLP pair]
+      -> analyze_sentence(original)    [Stages 2+3+4 — NLP pair]
       -> log_resolution() per entity   [privacy-safe logging]
       -> AnalyzeResponse                [contract shape, with status field]
+
+IMPORTANT: analyze_sentence() is called with normalized.original, NOT
+normalized.cleaned. This is deliberate -- extract_entities() must run on
+the exact same string that gets echoed back as "sentence" in the response,
+otherwise start/end offsets from NER won't line up with what the frontend
+highlights. cleaned text is still available (normalized.cleaned) for
+narrower uses downstream, e.g. inside gazetteer lookups on individual
+matched place names -- just not for the whole-sentence NER pass.
 
 Run:
     uvicorn main:app --reload --port 8000
 
 SWAP WHEN READY: replace the `nlp_interface` import below with the NLP
-pair's real module once they hand it over.
+pair's real module once they hand it over (e.g. `from pipeline import
+analyze_sentence`, once pipeline.py is dropped into this folder).
 """
 
 from typing import Literal, Optional
@@ -83,12 +92,13 @@ def analyze(req: AnalyzeRequest):
     # Stage 1 — normalise (Person 1's normalize())
     normalized = normalize(req.sentence)
 
-    # Stages 2+3+4 — NLP pair's pipeline, fed the cleaned text
-    result = analyze_sentence(normalized.cleaned)
+    # Stages 2+3+4 — NLP pair's pipeline.
+    # Deliberately using `original`, not `cleaned` -- see module docstring.
+    result = analyze_sentence(normalized.original)
     entities = result.get("entities", [])
 
     # Privacy-safe logging: place + confidence + timestamp ONLY, never
-    # the raw sentence.
+    # the raw sentence. This must stay true for the running system.
     for ent in entities:
         resolved = ent.get("resolved")
         confidence = resolved["confidence"] if resolved else None
@@ -98,5 +108,5 @@ def analyze(req: AnalyzeRequest):
             status=ent.get("status", "unknown"),
         )
 
-    # Response echoes the ORIGINAL sentence, per Person 1's integration note
+    # Response echoes the ORIGINAL sentence (matches Person 1's integration note)
     return AnalyzeResponse(sentence=normalized.original, entities=entities)
