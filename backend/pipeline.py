@@ -67,7 +67,6 @@ def analyze_sentence(sentence: str, gazetteer_lookup=None) -> dict:
     return {"sentence": sentence, "entities": entities_out}
 
 if __name__ == "__main__":
-    # Manual smoke test — run with: python -m ml.pipeline  (from the nlp-ml/ folder)
     import json
     sample = "Flooding reported near Aurangabad after heavy rains in Maharashtra."
     print(json.dumps(analyze_sentence(sample), indent=2))

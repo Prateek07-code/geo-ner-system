@@ -6,7 +6,7 @@ def run_evaluation():
         with open("data/test_sentences.json", encoding="utf-8") as f:
             test_set = json.load(f)
     except FileNotFoundError:
-        print("ERROR: data/test_sentences.json not found. Make sure you are running this from the nlp-ml directory.")
+        print("ERROR: data/test_sentences.json not found. Make sure you are running this from the backend directory.")
         return
 
     total_expected = 0

@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from ml.disambiguator import disambiguate
+from disambiguator import disambiguate
 
 DATA_PATH = Path(__file__).parent / "mock_candidates.json"
 
