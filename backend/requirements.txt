@@ -6,3 +6,4 @@ requests>=2.32
 faiss-cpu>=1.8
 rapidfuzz>=3.9
 scikit-learn>=1.5
+spacy>=3.7

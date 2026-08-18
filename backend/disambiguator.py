@@ -9,35 +9,24 @@ candidates come from Backend's gazetteer lookup(), schema locked in Phase 1:
 
 CONTEXT_WEIGHT = 0.7
 POPULATION_WEIGHT = 0.3
+MAX_ALTERNATES = 3   # cap returned alternates -- real data can produce 100+ candidates
 
 
-def disambiguate(entity_text: str, sentence_context: str, candidates: list[dict],sibling_entities: list[str] | None = None) -> dict:
-    """
-    Returns:
-        {
-            "status": "resolved" | "no_confident_match",
-            "resolved": {"state": str, "district": str, "lat": float,
-                         "lon": float, "confidence": float} | None,
-            "alternates": [{"state": str, "confidence": float}, ...],  
-        }
-    """
+def disambiguate(entity_text: str, sentence_context: str, candidates: list[dict],
+                  sibling_entities: list[str] | None = None) -> dict:
     if not candidates:
-        return {"status": "no_confident_match","resolved": None, "alternates": []}
+        return {"status": "no_confident_match", "resolved": None, "alternates": []}
 
     if len(candidates) == 1:
-        c = candidates[0]
         return {
             "status": "resolved",
-            "resolved": {
-                "state": c["state"], "district": c["district"],
-                "lat": c["lat"], "lon": c["lon"], "confidence": 0.95,
-            },
+            "resolved": _build_resolved(candidates[0], confidence=0.95),
             "alternates": [],
         }
 
     scored = []
     for c in candidates:
-        context_score = _context_match_score(sentence_context, c,sibling_entities)
+        context_score = _context_match_score(sentence_context, c, sibling_entities)
         pop_score = _population_score(c, candidates)
         combined = CONTEXT_WEIGHT * context_score + POPULATION_WEIGHT * pop_score
         scored.append((combined, c))
@@ -45,15 +34,25 @@ def disambiguate(entity_text: str, sentence_context: str, candidates: list[dict]
     scored.sort(key=lambda x: x[0], reverse=True)
     top_score, top = scored[0]
 
-    resolved = {
-        "state": top["state"], "district": top["district"],
-        "lat": top["lat"], "lon": top["lon"], "confidence": round(min(top_score, 0.99), 2),
-    }
+    resolved = _build_resolved(top, confidence=round(min(top_score, 0.99), 2))
     alternates = [
-        {"state": c["state"], "confidence": round(s, 2)}
-        for s, c in scored[1:]
+        {"state": c.get("state") or "Unknown", "confidence": round(s, 2)}
+        for s, c in scored[1:MAX_ALTERNATES + 1]
     ]
-    return {"status": "resolved","resolved": resolved, "alternates": alternates}
+    return {"status": "resolved", "resolved": resolved, "alternates": alternates}
+
+
+def _build_resolved(c: dict, confidence: float) -> dict:
+    """
+    Real GeoNames rows can have state/district = None (metadata gaps in the
+    dataset). Backend's Pydantic model requires both as non-null str, so
+    coerce here rather than letting a None slip through and crash /analyze.
+    """
+    return {
+        "state": c.get("state") or "Unknown",
+        "district": c.get("district") or "Unknown",
+        "lat": c["lat"], "lon": c["lon"], "confidence": confidence,
+    }
 
 
 def _context_match_score(sentence_context: str, candidate: dict,sibling_entities: list[str] | None = None) -> float:
