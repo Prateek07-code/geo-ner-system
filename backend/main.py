@@ -1,24 +1,34 @@
 """
-GeoNER — Backend API (Phase 1: MOCK)
+GeoNER — Backend API (Final Sprint, Day 1)
 
-POST /analyze returns a HARDCODED response matching the locked contract
-exactly. No real NER / disambiguation is wired in yet — that's Phase 2,
-where this handler will call:
-    entities = extract_entities(sentence)          # from NLP/ML pair
-    candidates = lookup(entity_text)                # from gazetteer.py
-    ... disambiguation logic ...                     # scores candidates into resolved/alternates
+Mock data retired. Live flow:
+    raw sentence
+      -> normalize()                   [Stage 1 — Person 1 / Data pair]
+      -> analyze_sentence(cleaned)     [Stages 2+3+4 — NLP pair]
+      -> log_resolution() per entity   [privacy-safe logging]
+      -> AnalyzeResponse                [contract shape, with status field]
 
 Run:
-    uvicorn backend.main:app --reload --port 8000
+    uvicorn main:app --reload --port 8000
+
+SWAP WHEN READY: replace the `nlp_interface` import below with the NLP
+pair's real module once they hand it over.
 """
+
+from typing import Literal, Optional
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-app = FastAPI(title="GeoNER API", version="0.1.0-phase1-mock")
+from normalize import normalize
+from privacy_log import log_resolution
 
-# Frontend dev server (Vite) origin — Frontend pair builds/runs against this.
+# --- SWAP THIS IMPORT once the NLP pair hands over their real file ---
+from nlp_interface import analyze_sentence
+
+app = FastAPI(title="GeoNER API", version="0.2.0-sprint-day1")
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173"],
@@ -28,7 +38,7 @@ app.add_middleware(
 )
 
 
-# ---------- Request / Response models (mirror the locked contract exactly) ----------
+# ---------- Models (updated contract: status field added) ----------
 
 class AnalyzeRequest(BaseModel):
     sentence: str
@@ -51,7 +61,8 @@ class Entity(BaseModel):
     text: str
     start: int
     end: int
-    resolved: ResolvedLocation
+    status: Literal["resolved", "no_confident_match"]
+    resolved: Optional[ResolvedLocation] = None
     alternates: list[Alternate] = Field(default_factory=list)
 
 
@@ -69,32 +80,23 @@ def health():
 
 @app.post("/analyze", response_model=AnalyzeResponse)
 def analyze(req: AnalyzeRequest):
-    """
-    PHASE 1 MOCK: always returns the same hardcoded entity/resolution data,
-    regardless of input sentence. This exists purely so the Frontend pair
-    can build HighlightedText / ResolvedLocationsPanel / MapView against a
-    real HTTP response with the exact contract shape, instead of a static
-    JSON file. `sentence` is echoed back from the request; `entities` is
-    fixed until Phase 2 wires in the real pipeline.
-    """
-    mock_response = AnalyzeResponse(
-        sentence=req.sentence,
-        entities=[
-            Entity(
-                text="Aurangabad",
-                start=22,
-                end=32,
-                resolved=ResolvedLocation(
-                    state="Maharashtra",
-                    district="Chhatrapati Sambhajinagar",
-                    lat=19.8762,
-                    lon=75.3433,
-                    confidence=0.91,
-                ),
-                alternates=[
-                    Alternate(state="Bihar", confidence=0.09),
-                ],
-            )
-        ],
-    )
-    return mock_response
+    # Stage 1 — normalise (Person 1's normalize())
+    normalized = normalize(req.sentence)
+
+    # Stages 2+3+4 — NLP pair's pipeline, fed the cleaned text
+    result = analyze_sentence(normalized.cleaned)
+    entities = result.get("entities", [])
+
+    # Privacy-safe logging: place + confidence + timestamp ONLY, never
+    # the raw sentence.
+    for ent in entities:
+        resolved = ent.get("resolved")
+        confidence = resolved["confidence"] if resolved else None
+        log_resolution(
+            place_text=ent.get("text", ""),
+            confidence=confidence,
+            status=ent.get("status", "unknown"),
+        )
+
+    # Response echoes the ORIGINAL sentence, per Person 1's integration note
+    return AnalyzeResponse(sentence=normalized.original, entities=entities)
