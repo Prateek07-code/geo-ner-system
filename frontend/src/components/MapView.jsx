@@ -16,7 +16,7 @@ function MapView({ entities }) {
       district: entity.resolved.district,
       lat: entity.resolved.lat,
       lon: entity.resolved.lon,
-      confidence: entity.resolved.confidence
+      confidence: entity.resolved.confidence,
     }));
 
   const defaultCenter = [20.5937, 78.9629];
@@ -30,11 +30,10 @@ function MapView({ entities }) {
     <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
       <div className="border-b border-slate-200 p-6">
         <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-          Geographic View
+          Geospatial Resolution
         </p>
-
-        <h2 className="mt-1 text-lg font-semibold text-slate-900">
-          Resolved Locations on Map
+        <h2 className="mt-1 text-lg font-semibold text-navy">
+          Resolved coordinates from extracted place entities
         </h2>
       </div>
 
@@ -51,21 +50,15 @@ function MapView({ entities }) {
           />
 
           {locations.map((location) => (
-            <Marker
-              key={location.id}
-              position={[location.lat, location.lon]}
-            >
+            <Marker key={location.id} position={[location.lat, location.lon]}>
               <Popup>
-                <div className="space-y-1">
-                  <p className="font-semibold">{location.name}</p>
-
-                  <p className="text-sm">
+                <div className="space-y-1 text-sm">
+                  <p className="font-semibold text-navy">{location.name}</p>
+                  <p className="text-slate-600">
                     {location.district}, {location.state}
                   </p>
-
-                  <p className="text-sm">
-                    Confidence:{" "}
-                    {Math.round(location.confidence * 100)}%
+                  <p className="font-medium text-geo-blue">
+                    Confidence: {Math.round(location.confidence * 100)}%
                   </p>
                 </div>
               </Popup>
